@@ -1,0 +1,25 @@
+name: Rules Change Protection
+on:
+  pull_request:
+    paths:
+      - 'rules/**'
+      - 'scripts/compliance-gate.sh'
+      - 'memory/compliance-manifests/**'
+
+jobs:
+  flag-rules-change:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Diff critical files
+        run: |
+          echo "## ⚠️ Rules Change Detected" >> $GITHUB_STEP_SUMMARY
+          git diff origin/main -- rules/ scripts/compliance-gate.sh >> $GITHUB_STEP_SUMMARY
+
+      - name: Require manual approval label
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "::warning::Rules files modified — requires 'mike-approved' label before merge"

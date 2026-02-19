@@ -1,0 +1,36 @@
+name: Compliance Log Validator
+on:
+  push:
+    paths:
+      - '.otto-compliance-log.jsonl'
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  validate-log:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSONL format
+        run: |
+          if [ -f .otto-compliance-log.jsonl ]; then
+            while IFS= read -r line; do
+              echo "$line" | python3 -c "import sys,json; json.load(sys.stdin)" || {
+                echo "❌ Invalid JSON line: $line"
+                exit 1
+              }
+            done < .otto-compliance-log.jsonl
+            echo "✅ All log entries valid"
+          fi
+
+      - name: Check for recent violations
+        run: |
+          if [ -f .otto-compliance-log.jsonl ]; then
+            VIOLATIONS=$(grep '"status":"VIOLATION"' .otto-compliance-log.jsonl | wc -l)
+            echo "Total violations: $VIOLATIONS"
+            if [ "$VIOLATIONS" -gt 0 ]; then
+              echo "::warning::$VIOLATIONS compliance violations found in log"
+              grep '"status":"VIOLATION"' .otto-compliance-log.jsonl | tail -5
+            fi
+          fi

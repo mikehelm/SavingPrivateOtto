@@ -1,0 +1,42 @@
+name: Compliance Gate
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  compliance-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate rules files exist
+        run: |
+          for f in rules/RULES-CORE.md rules/RULES-MODEL.md rules/RULES-OPERATIONS.md; do
+            [ -f "$f" ] || { echo "❌ Missing $f"; exit 1; }
+          done
+
+      - name: Check gate script syntax
+        run: bash -n scripts/compliance-gate.sh
+
+      - name: Run gate script self-test
+        run: |
+          bash scripts/compliance-gate.sh "coding" "qwen-plus-latest" "test-1"
+          bash scripts/compliance-gate.sh "keepalive" "qwen3:32b" "test-2"
+          ! bash scripts/compliance-gate.sh "coding" "qwen3:32b" "test-3"
+
+      - name: Validate compliance manifests
+        run: |
+          for f in memory/compliance-manifests/*.md; do
+            [ -s "$f" ] || { echo "❌ Empty manifest: $f"; exit 1; }
+          done
+
+      - name: Check for forbidden patterns
+        run: |
+          if grep -rn "try.*local.*first\|local.*fallback\|ollama.*escalat" \
+               --include="*.py" --include="*.sh" --include="*.md" \
+               scripts/ rules/ 2>/dev/null | grep -v "❌\|NEVER\|Forbidden"; then
+            echo "❌ Found forbidden local-first patterns"
+            exit 1
+          fi
