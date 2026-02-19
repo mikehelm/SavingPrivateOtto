@@ -166,7 +166,7 @@
   <div class="status-item"><span class="status-dot dot-green"></span> Phase 1: Failure Report</div>
   <div class="status-item"><span class="status-dot dot-yellow"></span> Phase 2: Research (ChatGPT + Opus)</div>
   <div class="status-item"><span class="status-dot dot-gray"></span> Phase 3: Cross-Pollination</div>
-  <div class="status-item"><span class="status-dot dot-gray"></span> Phase 4: Consensus</div>
+  <div class="status-item"><span class="status-dot dot-yellow"></span> Phase 4: Final Plan</div>
   <div class="status-item"><span class="status-dot dot-gray"></span> Phase 5: Final Plan</div>
 </div>
 
@@ -208,14 +208,14 @@
     <p>Each expert reviewed the other's work:</p>
     <ul>
       <li><strong style="color:var(--green)">&#10003; Opus reviewed ChatGPT</strong> - Found 7 consensus points, 6 areas ChatGPT added value, 5 disagreements. Proposed unified 18-item plan.</li>
-      <li><strong style="color:var(--accent)">&#9711; ChatGPT reviewing Opus</strong> - Awaiting response</li>
+      <li><strong style="color:var(--green)">&#10003; ChatGPT reviewed Opus</strong> - Validates gate script but says it alone isn't enough. Needs CI/CD + post-deploy smoke test + Policy Auditor. "Opus is directionally correct but not yet architecturally hardened."</li>
     </ul>
     <p><a href="https://github.com/mikehelm/SavingPrivateOtto/blob/main/OPUS-CROSS-REVIEW.md" target="_blank">Read Opus Cross-Review &rarr;</a></p>
   </div>
 
   <div class="phase">
     <div class="phase-header">
-      <h2>Phase 4: Consensus</h2>
+      <h2>Phase 4: Final Plan</h2>
       <span class="phase-badge badge-pending">Pending</span>
     </div>
     <p>Merge the best ideas from both reviews into a unified, actionable rebuild plan.</p>
@@ -233,6 +233,30 @@
 
   <!-- BLOG / LIVE UPDATES -->
   <h2 style="margin-bottom: 24px; font-size: 1.5rem;">Live Updates</h2>
+
+  <div class="blog-entry" id="entry-5">
+    <div class="timestamp">Feb 19, 2026 - 2:35 PM ICT</div>
+    <h3>ChatGPT Cross-Review: "Directionally Correct, Not Yet Hardened"</h3>
+    <p>ChatGPT reviewed Opus's architecture and delivered a detailed critique. The verdict: Opus's ideas are pragmatic and correct in direction, but not structurally hardened enough to prevent bypass.</p>
+    <div class="findings">
+      <h4>ChatGPT's Additions</h4>
+      <ul>
+        <li><strong>Three-layer verification:</strong> Local gate script (fast) + GitHub Actions CI (authoritative) + Post-deploy smoke test (production). All three must pass.</li>
+        <li><strong>Gate script weakness:</strong> Otto can <code>echo '{"status":"pass"}' > verdict.json</code> and fake it. CI can't be faked.</li>
+        <li><strong>Automatic rollback:</strong> If production smoke test fails, auto-revert to last working commit. Not addressed by Opus.</li>
+        <li><strong>Confidence scoring:</strong> Agents should emit confidence levels. Below threshold = auto re-run or escalate.</li>
+        <li><strong>Cost + failure telemetry:</strong> Dashboard tracking which models fail most, token costs, drift trends.</li>
+      </ul>
+      <h4>What ChatGPT Praised in Opus</h4>
+      <ul>
+        <li>Token compaction (15K &rarr; 5.5K) is "extremely high ROI"</li>
+        <li>Deploy manifests are "pragmatic and powerful"</li>
+        <li>Rule IDs + versioning is "very strong idea, keep it"</li>
+        <li>Honest limitation acknowledgment is "mature"</li>
+      </ul>
+    </div>
+    <p><strong>Building final plan now</strong> - synthesizing all 4 documents into one actionable blueprint.</p>
+  </div>
 
   <div class="blog-entry" id="entry-4">
     <div class="timestamp">Feb 19, 2026 - 2:24 PM ICT</div>
@@ -315,7 +339,7 @@
 
 <div class="footer">
   <p>Saving Private Otto &mdash; A project by Mike &amp; Otto | <a href="https://github.com/mikehelm/SavingPrivateOtto">GitHub</a></p>
-  <p style="margin-top: 8px;">Last updated: <span id="last-updated">Feb 19, 2026 2:24 PM ICT</span></p>
+  <p style="margin-top: 8px;">Last updated: <span id="last-updated">Feb 19, 2026 2:35 PM ICT</span></p>
 </div>
 
 </body>
