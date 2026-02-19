@@ -194,9 +194,10 @@
     </div>
     <p>Two parallel tracks analyzing the failures and proposing solutions:</p>
     <ul>
-      <li><strong>ChatGPT Pro</strong> - Deep research on automation best practices, testing enforcement, model routing, CI/CD patterns, and OpenClaw optimization</li>
-      <li><strong>Opus Sub-Agent</strong> - Architectural review of existing rules, memory systems, process flows, and structural improvements</li>
+      <li><strong style="color:var(--green)">&#10003; Opus Sub-Agent</strong> - Architectural review complete (602 lines). Key verdict: "The system doesn't need more discipline. It needs better plumbing."</li>
+      <li><strong style="color:var(--accent)">&#9711; ChatGPT Pro</strong> - Deep Research submitted, awaiting response (~10-30 min)</li>
     </ul>
+    <p><a href="https://github.com/mikehelm/SavingPrivateOtto/blob/main/OPUS-REVIEW.md" target="_blank">Read Opus Review &rarr;</a></p>
   </div>
 
   <div class="phase">
@@ -228,6 +229,23 @@
   <!-- BLOG / LIVE UPDATES -->
   <h2 style="margin-bottom: 24px; font-size: 1.5rem;">Live Updates</h2>
 
+  <div class="blog-entry" id="entry-2">
+    <div class="timestamp">Feb 19, 2026 - 2:13 PM ICT</div>
+    <h3>Opus Review Complete: "Better Plumbing, Not More Discipline"</h3>
+    <p>Opus delivered a 602-line architectural review. The core insight: <strong>Otto is both the worker and the quality inspector</strong>. That's like asking a student to grade their own exam. More rules won't help.</p>
+    <div class="findings">
+      <h4>Top Recommendations</h4>
+      <ul>
+        <li><strong>Gate script, not checklists:</strong> A <code>verify-completion.sh</code> that produces evidence artifacts. No <code>verdict.json</code> = not done. Otto doesn't get to say "done" - the script does.</li>
+        <li><strong>6 rule files &rarr; 3:</strong> OTTO.md (identity), RULES.md (all rules with IDs), RUNBOOK.md (operations). Session boot drops from ~15K to ~5.5K tokens.</li>
+        <li><strong>15+ crons &rarr; 3:</strong> Heartbeat (15min, 5 checks), Background (60min), Daily (06:00). ~83% token burn reduction.</li>
+        <li><strong>Deploy manifests:</strong> Every project with auth gets a DEPLOY.md listing env vars, OAuth redirect URIs, and manual steps.</li>
+        <li><strong>Otto orchestrates, never implements.</strong> Every time Otto writes code instead of routing to Codex, verification gets skipped.</li>
+      </ul>
+    </div>
+    <p>P0 effort estimate: ~6 hours to stop the bleeding. Waiting for ChatGPT Deep Research to compare approaches.</p>
+  </div>
+
   <div class="blog-entry" id="entry-1">
     <div class="timestamp">Feb 19, 2026 - 2:05 PM ICT</div>
     <h3>Project Kicked Off</h3>
@@ -246,7 +264,7 @@
 
 <div class="footer">
   <p>Saving Private Otto &mdash; A project by Mike &amp; Otto | <a href="https://github.com/mikehelm/SavingPrivateOtto">GitHub</a></p>
-  <p style="margin-top: 8px;">Last updated: <span id="last-updated">Feb 19, 2026 2:05 PM ICT</span></p>
+  <p style="margin-top: 8px;">Last updated: <span id="last-updated">Feb 19, 2026 2:13 PM ICT</span></p>
 </div>
 
 </body>
