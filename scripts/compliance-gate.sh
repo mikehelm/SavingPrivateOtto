@@ -9,7 +9,9 @@ MODEL_USED="$2"
 JOB_ID="${3:-unknown}"
 
 # Log file for compliance trail
-LOG_FILE="$HOME/.openclaw/workspace/.otto-compliance-log.jsonl"
+LOG_DIR="${COMPLIANCE_LOG_DIR:-$HOME/.openclaw/workspace}"
+mkdir -p "$LOG_DIR"
+LOG_FILE="$LOG_DIR/.otto-compliance-log.jsonl"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
 # Function to log violation
